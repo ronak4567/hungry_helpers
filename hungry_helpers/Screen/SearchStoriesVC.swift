@@ -72,6 +72,33 @@ class SearchStoriesVC: UIViewController {
         }
     }
     
+    @IBAction func tappedOnCategory(_ sender:UIControl) {
+        let searchStoriesVC = self.storyboard?.instantiateViewController(withIdentifier: "SearchStoriesVC") as! SearchStoriesVC
+        let dictDetail = self.arrTableData[sender.tag]
+        searchStoriesVC.categoryId = dictDetail["cid"] as! String
+        searchStoriesVC.keywords = dictDetail["category_name"] as! String
+        self.navigationController?.pushViewController(searchStoriesVC, animated: true)
+    }
+    
+    @IBAction func tappedOnKeyword(_ sender:UIControl) {
+        let searchStoriesVC = self.storyboard?.instantiateViewController(withIdentifier: "SearchStoriesVC") as! SearchStoriesVC
+        let dictDetail = self.arrTableData[sender.tag]
+        searchStoriesVC.categoryId = ""
+        searchStoriesVC.keywords = dictDetail["keywords"] as! String
+        self.navigationController?.pushViewController(searchStoriesVC, animated: true)
+    }
+    
+    @IBAction func tappedOnShare(_ sender:UIButton) {
+        let dictDetail = self.arrTableData[sender.tag]
+        if let cell = self.tblNews.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as? NewsTableCell{
+            appDelegateObj.openShareMenu(strMessage: dictDetail["name"] as! String, image: cell.imgBanner.image!)
+        }else{
+            appDelegateObj.openShareMenu(strMessage: dictDetail["name"] as! String, image: nil)
+        }
+            
+        
+    }
+    
     func getNewsData(isCallFromBookmark: Bool = false) {
         let url = ApiEndPoints.News.getNews
         let headerWithform = [
@@ -187,6 +214,15 @@ extension SearchStoriesVC :UITableViewDataSource, UITableViewDelegate{
             
             cell.btnBookmark.tag = indexPath.row;
             cell.btnBookmark.addTarget(self, action: #selector(tappedOnBookmark(_:)), for: .touchUpInside)
+            
+            cell.btnShare.tag = indexPath.row;
+            cell.btnShare.addTarget(self, action: #selector(tappedOnShare(_:)), for: .touchUpInside)
+            
+            cell.controlCategory.tag = indexPath.row;
+            cell.controlCategory.addTarget(self, action: #selector(tappedOnCategory(_:)), for: .touchUpInside)
+            
+            cell.controlKeyword.tag = indexPath.row;
+            cell.controlKeyword.addTarget(self, action: #selector(tappedOnKeyword(_:)), for: .touchUpInside)
             
             let strAuthorURL:String = dictDetail["author_image"] as! String
             cell.imgProfile.sd_setImage(with: URL(string: strAuthorURL))

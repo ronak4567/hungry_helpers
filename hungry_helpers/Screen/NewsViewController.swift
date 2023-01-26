@@ -76,21 +76,7 @@ class NewsViewController: UIViewController {
         .lightContent
     }
     
-    @IBAction func tappedOnCategory(_ sender:UIControl) {
-        let searchStoriesVC = self.storyboard?.instantiateViewController(withIdentifier: "SearchStoriesVC") as! SearchStoriesVC
-        let dictDetail = self.arrTableData[sender.tag]
-        searchStoriesVC.categoryId = dictDetail["cid"] as! String
-        searchStoriesVC.keywords = dictDetail["category_name"] as! String
-        self.navigationController?.pushViewController(searchStoriesVC, animated: true)
-    }
     
-    @IBAction func tappedOnKeyword(_ sender:UIControl) {
-        let searchStoriesVC = self.storyboard?.instantiateViewController(withIdentifier: "SearchStoriesVC") as! SearchStoriesVC
-        let dictDetail = self.arrTableData[sender.tag]
-        searchStoriesVC.categoryId = ""
-        searchStoriesVC.keywords = dictDetail["keywords"] as! String
-        self.navigationController?.pushViewController(searchStoriesVC, animated: true)
-    }
     
     @IBAction func tappedOnBookmark(_ sender:UIButton) {
         
@@ -117,6 +103,22 @@ class NewsViewController: UIViewController {
             self.arrNewsList.removeAll()
             self.getNewsData(isCallFromBookmark: true)
         }
+    }
+    
+    @IBAction func tappedOnCategory(_ sender:UIControl) {
+        let searchStoriesVC = self.storyboard?.instantiateViewController(withIdentifier: "SearchStoriesVC") as! SearchStoriesVC
+        let dictDetail = self.arrTableData[sender.tag]
+        searchStoriesVC.categoryId = dictDetail["cid"] as! String
+        searchStoriesVC.keywords = dictDetail["category_name"] as! String
+        self.navigationController?.pushViewController(searchStoriesVC, animated: true)
+    }
+    
+    @IBAction func tappedOnKeyword(_ sender:UIControl) {
+        let searchStoriesVC = self.storyboard?.instantiateViewController(withIdentifier: "SearchStoriesVC") as! SearchStoriesVC
+        let dictDetail = self.arrTableData[sender.tag]
+        searchStoriesVC.categoryId = ""
+        searchStoriesVC.keywords = dictDetail["keywords"] as! String
+        self.navigationController?.pushViewController(searchStoriesVC, animated: true)
     }
     
     @IBAction func tappedOnShare(_ sender:UIButton) {
@@ -331,12 +333,11 @@ extension NewsViewController :UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.arrSliderNewsList.count > 0 && indexPath.row == 0 {
         }else{
-            let dictDetail = self.arrTableData[indexPath.row-1] as! [String:Any]
+            let dictDetail = self.arrTableData[indexPath.row-1]
             if dictDetail["category_name"] as! String  == "BannerAd"{
                 let currentCell = tableView.cellForRow(at: indexPath)
-
-                print(currentCell?.accessibilityValue)
                 openURLToBrowser(strURL:currentCell?.accessibilityValue ?? "")
+            }else if dictDetail["category_name"] as! String  == "TrendingStory"{
             }else {
                 let newsDetails = self.storyboard?.instantiateViewController(withIdentifier: "NewsDetailsVC") as! NewsDetailsVC
                 newsDetails.newsId = "\(dictDetail["id"]!)"
@@ -386,6 +387,15 @@ extension NewsViewController :UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView.tag == 2222{
+            let dictDetail = self.arrTrendingNewsList[indexPath.row]
+            let newsDetails = self.storyboard?.instantiateViewController(withIdentifier: "NewsDetailsVC") as! NewsDetailsVC
+            newsDetails.newsId = "\(dictDetail["id"]!)"
+            self.navigationController?.pushViewController(newsDetails, animated: true)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
@@ -395,7 +405,6 @@ extension NewsViewController :UICollectionViewDelegate, UICollectionViewDataSour
             let height = (ScreenSize.SCREEN_WIDTH * 230) / 414
             return CGSize(width: ScreenSize.SCREEN_WIDTH, height: height)
         }else{
-            let height = (ScreenSize.SCREEN_WIDTH * 200) / 414
             return CGSize(width: ScreenSize.SCREEN_WIDTH-80, height: 168)
         }
     }
