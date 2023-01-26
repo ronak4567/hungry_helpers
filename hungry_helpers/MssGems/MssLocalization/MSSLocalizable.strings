@@ -1,0 +1,28 @@
+
+// Custom ImagePicker Text
+openCamera = "Take a picture";
+openGallery = "Open Gallery";
+
+
+
+
+
+// Validations Text
+kJsonError = "The server is not responding, Please refresh again.";
+kServerError = "The server is not responding, Please refresh again.";
+kNetworkError = "No Internet found. Check your connection and try again";
+
+
+
+
+
+
+// General Text
+no = "No";
+yes = "Yes";
+cancel = "Cancel";
+cameraPermission = "Please enable camera permission for this App in your device settings";
+permissionHeading = "Sorry, Permissions Denied.";
+ok = "Ok";
+done = "Done";
+

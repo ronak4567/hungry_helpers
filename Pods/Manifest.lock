@@ -1,0 +1,28 @@
+PODS:
+  - Alamofire (4.9.1)
+  - SDWebImage (5.14.2):
+    - SDWebImage/Core (= 5.14.2)
+  - SDWebImage/Core (5.14.2)
+  - SwiftMessages (5.0.1):
+    - SwiftMessages/App (= 5.0.1)
+  - SwiftMessages/App (5.0.1)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.9.1)
+  - SDWebImage
+  - SwiftMessages (~> 5.0.1)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - SDWebImage
+    - SwiftMessages
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  SDWebImage: b9a731e1d6307f44ca703b3976d18c24ca561e84
+  SwiftMessages: 32ce3cfc8388b41aae56ff4853cc752a20101147
+
+PODFILE CHECKSUM: 1ba69be4a90099f683800768bcfc78310b14ee70
+
+COCOAPODS: 1.11.3
