@@ -561,6 +561,7 @@
 				DEVELOPMENT_TEAM = SB94AN5R72;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = hungry_helpers/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Hungry Helpers";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Take picture to upload your own stories";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Select image from your gallery to upload your own stories";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Select image from your gallery to upload your own stories";
@@ -597,6 +598,7 @@
 				DEVELOPMENT_TEAM = SB94AN5R72;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = hungry_helpers/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Hungry Helpers";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Take picture to upload your own stories";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Select image from your gallery to upload your own stories";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Select image from your gallery to upload your own stories";
