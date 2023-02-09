@@ -43,9 +43,13 @@ class BookMarkListVC: UIViewController {
             if((response.status?.isEqual(to: 1)) != nil){
                 let dictResult = response.result as! Dictionary<String,Any>
                 printToConsole(item: dictResult)
-                self.totalRecord = dictResult["total_records"] as! Int
+                if let record = dictResult["total_records"] as? Int{
+                    self.totalRecord = record
+                }
                 if self.arrBookmarkList.count == 0 {
-                    self.arrBookmarkList = dictResult["news_list"] as! [Dictionary<String, Any>]
+                    if let arrNewTempData = dictResult["news_list"] as? [Dictionary<String, Any>]{
+                        self.arrBookmarkList = arrNewTempData
+                    }
                 }else{
                     if let arrNewTempData = dictResult["news_list"] as? [Dictionary<String, Any>]{
                         self.arrBookmarkList.append(contentsOf: arrNewTempData)

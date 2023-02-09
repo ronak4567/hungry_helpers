@@ -27,7 +27,7 @@ class ViewController: UIViewController, UICollectionViewDataSource,UICollectionV
     
     func getSettingData() {
         let url = ApiEndPoints.Onboarding.getSettings
-        NetworkingWrapper.sharedInstance.connect(urlEndPoint: url, httpMethod: .get) { (response) in
+        NetworkingWrapper.sharedInstance.connect(urlEndPoint: url, httpMethod: .get, isLoading: false) { (response) in
             
             if((response.status?.isEqual(to: 1)) != nil){
                 var dictResult = response.result as! Dictionary<String,Any>

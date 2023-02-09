@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func getCategoriesData() {
         let url = ApiEndPoints.Onboarding.getCategories
-        NetworkingWrapper.sharedInstance.connect(urlEndPoint: url, httpMethod: .get) { (response) in
+        NetworkingWrapper.sharedInstance.connect(urlEndPoint: url, httpMethod: .get,isLoading: false) { (response) in
             
             if((response.status?.isEqual(to: 1)) != nil){
                 var dictResult = response.result as! Dictionary<String,Any>
@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func getCitiesData() {
         let url = ApiEndPoints.Onboarding.getCities
-        NetworkingWrapper.sharedInstance.connect(urlEndPoint: url, httpMethod: .get) { (response) in
+        NetworkingWrapper.sharedInstance.connect(urlEndPoint: url, httpMethod: .get, isLoading: false) { (response) in
             
             if((response.status?.isEqual(to: 1)) != nil){
                 var dictResult = response.result as! Dictionary<String,Any>
@@ -87,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     @objc func getFullPageBannerAd() {
         let url = ApiEndPoints.Onboarding.getPopupBanner
         let param = ["screen":"news_screen"]
-        NetworkingWrapper.sharedInstance.connect(urlEndPoint: url, httpMethod: .get, parameters: param) { (response) in
+        NetworkingWrapper.sharedInstance.connect(urlEndPoint: url, httpMethod: .get, parameters: param, isLoading: false) { (response) in
             
             if((response.status?.isEqual(to: 1)) != nil){
                 var dictResult = response.result as! Dictionary<String,Any>

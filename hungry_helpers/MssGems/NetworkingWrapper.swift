@@ -27,28 +27,11 @@ class NetworkingWrapper: NSObject {
         var url = ""
         var socktURL = ""
         var imgURL = ""
-        switch UserDefaults.standard.value(forKey: "Selected_Server") as? String ?? "Live" {
-        case "Local":
-            url = "https://test.bahrainsalons.com:9052/api/v2/"
-            socktURL = "https://test.bahrainsalons.com:9052/api/v2/"
-            imgURL = "https://test.bahrainsalons.com:9052/uploads/"
-        case "Release":
-            url = "https://test.bahrainsalons.com:9052/api/v2/"
-            socktURL = "https://test.bahrainsalons.com:9052/api/v2/"
-            imgURL = "https://test.bahrainsalons.com:9052/uploads/"
-        case "Live":
-            url = "https://webservices.bahrainsalons.com:9052/api/v2/"
-            socktURL = "https://webservices.bahrainsalons.com:9052/api/v2/"
-            imgURL = "https://webservices.bahrainsalons.com:9052/uploads/"
-        default:
-            url = "https://webservices.bahrainsalons.com:9052/api/v2/"
-            socktURL = "https://webservices.bahrainsalons.com:9052/api/v2/"
-            imgURL = "https://webservices.bahrainsalons.com:9052/uploads/"
-        }
+        
         return (url, socktURL, imgURL)
     }
     
-    func connect(urlEndPoint:String, httpMethod:HTTPMethod, headers:HTTPHeaders?, parameters:Dictionary<String,Any>,  apiResponse:@escaping(responseHandler)) {
+    func connect(urlEndPoint:String, httpMethod:HTTPMethod, headers:HTTPHeaders?, parameters:Dictionary<String,Any>, isLoading: Bool = true,  apiResponse:@escaping(responseHandler)) {
         
         
         let urlString = "\(Configurator().baseURL)\(urlEndPoint)"
@@ -59,20 +42,18 @@ class NetworkingWrapper: NSObject {
         printToConsole(item: validUrlString!)
         
         if reachabilityManager!.isReachable {
-            ManageHudder.sharedInstance.startActivityIndicator()
-            
+            if isLoading{
+                ManageHudder.sharedInstance.startActivityIndicator()
+            }
             print("URL:-----",validUrlString ?? "Invalid URL")
             print("PARAM:-----",parameters)
             Alamofire.request(validUrlString!, method: httpMethod, parameters: parameters.count == 0 ? nil : parameters, headers: headers).responseJSON { response in
                 ManageHudder.sharedInstance.stopActivityIndicator()
                 if response.result.isSuccess {
                     if let rawJson = response.result.value as? NSDictionary {
-                        
-                        printToConsole(item: rawJson)
-                        
+                        //printToConsole(item: rawJson)
                         let parsedResponse = self.parseResponse(rawJson: rawJson)
                         apiResponse(parsedResponse)
-                        
                     }
                     else {
                         apiResponse(ApiResponse(status: 0, code: nil, error: MSSLocalizedKeys.sharedInstance.localizedTextFor(key: MSSLocalizedKeys.ValidationsText.kJsonError.rawValue), result: nil))
@@ -128,9 +109,9 @@ class NetworkingWrapper: NSObject {
      Call this function to hit api without headers and with parameters
      */
     
-    func connect(urlEndPoint:String, httpMethod:HTTPMethod, parameters:Dictionary<String,Any>,  apiResponse:@escaping(responseHandler)) {
+    func connect(urlEndPoint:String, httpMethod:HTTPMethod, parameters:Dictionary<String,Any>, isLoading: Bool = true,  apiResponse:@escaping(responseHandler)) {
         
-        connect(urlEndPoint: urlEndPoint, httpMethod: httpMethod, headers: nil, parameters: parameters) { (response) in
+        connect(urlEndPoint: urlEndPoint, httpMethod: httpMethod, headers: nil, parameters: parameters, isLoading: isLoading) { (response) in
             apiResponse(response)
         }
     }
@@ -159,8 +140,8 @@ class NetworkingWrapper: NSObject {
      Call this function to hit api without headers and without parameters
      */
     
-    func connect(urlEndPoint:String, httpMethod:HTTPMethod,  apiResponse:@escaping(responseHandler)) {
-        connect(urlEndPoint: urlEndPoint, httpMethod: httpMethod, headers: nil, parameters: [:]) { (response) in
+    func connect(urlEndPoint:String, httpMethod:HTTPMethod, isLoading: Bool = true,  apiResponse:@escaping(responseHandler)) {
+        connect(urlEndPoint: urlEndPoint, httpMethod: httpMethod, headers: nil, parameters: [:],isLoading: isLoading) { (response) in
             apiResponse(response)
         }
     }
