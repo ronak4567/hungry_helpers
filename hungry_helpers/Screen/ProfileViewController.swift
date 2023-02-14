@@ -34,7 +34,7 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         topColouredBlack()
-
+        appDelegateObj.currentScreen = ""
     }
     
 

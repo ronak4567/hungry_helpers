@@ -7,6 +7,14 @@
 
 import UIKit
 
+public enum ScreenName: String {
+    case newsScreen = "news_screen"
+    case searchScreen = "search_screen"
+    case uploadScreen = "upload_screen"
+    case newsDetailScreen = "news_detail_screen"
+    case searchResultScreen = "search_result_screen"
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -17,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var arrCategories:[Dictionary<String,Any>] = []
     var arrCities:[Dictionary<String,Any>] = []
     var dictSettingData:Dictionary<String,Any> = [:]
-    
+    var currentScreen = ""
     var openAdSecondTime:Bool = false
     var timer:Timer?
     
@@ -49,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         print("applicationDidBecomeActive")
         if self.timer == nil {
-            self.timer = Timer.scheduledTimer(timeInterval: 20.0, target: self, selector: #selector(self.getFullPageBannerAd), userInfo: nil, repeats: false)
+            self.timer = Timer.scheduledTimer(timeInterval: 90.0, target: self, selector: #selector(self.getFullPageBannerAd), userInfo: nil, repeats: false)
         }
     }
     
@@ -85,25 +93,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc func getFullPageBannerAd() {
+       
         let url = ApiEndPoints.Onboarding.getPopupBanner
-        let param = ["screen":"news_screen"]
+        let param = ["screen":currentScreen]
         NetworkingWrapper.sharedInstance.connect(urlEndPoint: url, httpMethod: .get, parameters: param, isLoading: false) { (response) in
             
             if((response.status?.isEqual(to: 1)) != nil){
-                var dictResult = response.result as! Dictionary<String,Any>
+                let dictResult = response.result as! Dictionary<String,Any>
                 printToConsole(item: dictResult)
                 if let dictBanner = dictResult["popup_banner"] as? [String:Any]{
-                    
                     if self.openAdSecondTime == false {
                         self.openAdSecondTime = true
                         self.timer?.invalidate()
                         self.timer = nil
-                        self.timer = Timer.scheduledTimer(timeInterval: 40.0, target: self, selector: #selector(self.getFullPageBannerAd), userInfo: nil, repeats: false)
+                        let delayTime:Int = Int(dictResult["delay_time"] as! String) ?? 60
+                        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(delayTime), target: self, selector: #selector(self.getFullPageBannerAd), userInfo: nil, repeats: false)
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        self.openPopup(dictBanner: dictBanner)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        if self.currentScreen == ""{
+                            return
+                        }else{
+                            self.openPopup(dictBanner: dictBanner)
+                        }
                     }
-                    
                 }
             }
         }

@@ -26,7 +26,7 @@ class BookMarkListVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         topColouredBlack()
-        
+        appDelegateObj.currentScreen = ""
     }
     
     
@@ -143,7 +143,7 @@ extension BookMarkListVC :UITableViewDataSource, UITableViewDelegate{
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsTableCell") as! NewsTableCell
         cell.lblTitle.text = dictDetail["name"] as? String
-        cell.lblUsername.text = dictDetail["id"] as? String
+        cell.lblUsername.text = dictDetail["author_name"] as? String
         cell.lblDatetime.text = dictDetail["pdate"] as? String
         cell.lblCategoryName.text = (dictDetail["category_name"] as? String)?.uppercased()
         cell.lblKeywords.text = (dictDetail["keywords"] as? String)?.uppercased()

@@ -18,6 +18,10 @@ class RegisterViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        appDelegateObj.currentScreen = ""
+    }
     
     @IBAction func tappedOnSubmit(_ sender:UIButton){
         let strName = txtName.text?.trimmingCharacters(in: .whitespacesAndNewlines)

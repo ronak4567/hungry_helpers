@@ -32,6 +32,8 @@ class SearchStoriesVC: UIViewController {
         super.viewDidLoad()
         lblKeyword.text = self.keywords
         self.getNewsData()
+        
+        
         // Do any additional setup after loading the view.
     }
     
@@ -39,6 +41,7 @@ class SearchStoriesVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         topColouredBlack()
+        appDelegateObj.currentScreen = ScreenName.searchResultScreen.rawValue
     }
     
     @IBAction func tappedOnBack(_ sender:UIButton){
@@ -164,6 +167,17 @@ class SearchStoriesVC: UIViewController {
     
 }
 
+extension SearchStoriesVC : UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let searchStoriesVC = self.storyboard?.instantiateViewController(withIdentifier: "SearchStoriesVC") as! SearchStoriesVC
+        searchStoriesVC.categoryId = ""
+        searchStoriesVC.keywords = textField.text_Trimmed()
+        self.navigationController?.pushViewController(searchStoriesVC, animated: true)
+        self.view.endEditing(true)
+        return true
+    }
+}
+
 extension SearchStoriesVC :UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -186,7 +200,7 @@ extension SearchStoriesVC :UITableViewDataSource, UITableViewDelegate{
             
             
             cell.lblTitle.text = dictDetail["name"] as? String
-            cell.lblUsername.text = dictDetail["id"] as? String
+            cell.lblUsername.text = dictDetail["author_name"] as? String
             cell.lblDatetime.text = dictDetail["pdate"] as? String
             cell.lblCategoryName.text = (dictDetail["category_name"] as? String)?.uppercased()
             cell.lblKeywords.text = (dictDetail["keywords"] as? String)?.uppercased()

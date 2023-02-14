@@ -46,10 +46,12 @@ class TrendingCollectionCell: UICollectionViewCell {
 class NewsViewController: UIViewController {
     
     @IBOutlet var tblNews:UITableView!
+    @IBOutlet var controlCity:UIControl!
     var noOfData = 0
     var timer:Timer?
     var counter = 0
     
+    var selectedCity = ""
     var arrNewsList:[Dictionary<String,Any>] = []
     var arrSliderNewsList:[Dictionary<String,Any>] = []
     var arrTrendingNewsList:[Dictionary<String,Any>] = []
@@ -57,19 +59,21 @@ class NewsViewController: UIViewController {
     var arrTableData:[Dictionary<String,Any>] = []
     var loadingData = false;
     var noOfRecordfetch = 0;
-
+    let chooseCities = DropDown()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.getNewsData()
         self.tblNews.estimatedRowHeight = 200
+        self.setupChooseCategoryDropDown(self.controlCity);
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        appDelegateObj.currentScreen = ScreenName.newsScreen.rawValue
         topColouredBlack()
-
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -79,13 +83,10 @@ class NewsViewController: UIViewController {
     
     
     @IBAction func tappedOnBookmark(_ sender:UIButton) {
-        
         let headerWithform = [
             "Content-Type": "application/x-www-form-urlencoded"
         ]
-        
         let newsId = self.arrTableData[sender.tag]["id"] as! String;
-        
         let param:Dictionary<String,String> = ["user_mobile": appDelegateObj.userMobile,"nid": newsId]
         printToConsole(item: param)
         var url = ""
@@ -128,8 +129,10 @@ class NewsViewController: UIViewController {
         }else{
             appDelegateObj.openShareMenu(strMessage: dictDetail["name"] as! String, image: nil)
         }
-            
-        
+    }
+    
+    @IBAction func tappedOnCities(_ sender:UIControl) {
+        chooseCities.show();
     }
     
     func getNewsData(isCallFromBookmark: Bool = false) {
@@ -140,9 +143,9 @@ class NewsViewController: UIViewController {
         var param:Dictionary<String,String> = [:]
         
         if isCallFromBookmark {
-            param = ["user_mobile":appDelegateObj.userMobile,"start":"\(noOfData)","end":"\(self.noOfRecordfetch)"]
+            param = ["user_mobile":appDelegateObj.userMobile,"start":"\(noOfData)","end":"\(self.noOfRecordfetch)", "city":selectedCity]
         }else{
-            param = ["user_mobile":appDelegateObj.userMobile,"start":"\(noOfData)","end":"10"]
+            param = ["user_mobile":appDelegateObj.userMobile,"start":"\(noOfData)","end":"10", "city":selectedCity]
         }
         
         printToConsole(item: param)
@@ -177,7 +180,7 @@ class NewsViewController: UIViewController {
                 
                 self.tblNews.reloadData();
             }
-        
+            
         }
         
     }
@@ -198,21 +201,50 @@ class NewsViewController: UIViewController {
                 counter = 1
             }
         }
-        
-        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc func setupChooseCategoryDropDown(_ sender:UIControl) {
+        chooseCities.anchorView = sender
+        chooseCities.dismissMode = .onTap
+        chooseCities.direction = .bottom
+        
+        chooseCities.bottomOffset = CGPoint(x: 0, y: chooseCities.bounds.height)
+        var arrTopic:[Dictionary<String, Any>] = [["id":"0","name":"All Cities"]]
+        arrTopic.append(contentsOf: appDelegateObj.arrCities)
+        var arr = [String]()
+        for dict in arrTopic {
+            let dictTemp = dict as! [String:String]
+            arr.append(dictTemp["name"]!)
+        }
+        // You can also use localizationKeysDataSource instead. Check the docs.
+        self.chooseCities.dataSource = arr
+        
+        // Action triggered on selection
+        chooseCities.selectionAction = { [unowned self] (index, item) in
+            if let cityId = arrTopic[index]["id"] as? String {
+                if cityId == "0"{
+                    self.selectedCity = ""
+                }else{
+                    self.selectedCity = cityId
+                }
+            }
+            self.noOfData = 0;
+            self.arrNewsList.removeAll()
+            self.getNewsData()
+        }
     }
-    */
-
+    
+    
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 extension NewsViewController :UITableViewDataSource, UITableViewDelegate{
@@ -223,18 +255,18 @@ extension NewsViewController :UITableViewDataSource, UITableViewDelegate{
         }else{
             return self.arrTableData.count
         }
-            
+        
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if self.arrSliderNewsList.count > 0 && indexPath.row == 0 {
-            //let cell = tableView.dequeueReusableCell(withIdentifier: "SliderTableCell") as! SliderTableCell
             let cell = tableView.dequeueReusableCell(withIdentifier: "SliderTableCell", for: indexPath) as! SliderTableCell
             cell.sliderColletion.tag = 1111
             cell.sliderColletion.delegate = self
             cell.sliderColletion.dataSource = self
             cell.pageControl.numberOfPages = self.arrSliderNewsList.count
+            
             cell.selectionStyle = .none
             return cell;
         }else{
@@ -260,7 +292,7 @@ extension NewsViewController :UITableViewDataSource, UITableViewDelegate{
                 
                 
                 cell.lblTitle.text = dictDetail["name"] as? String
-                cell.lblUsername.text = dictDetail["id"] as? String
+                cell.lblUsername.text = dictDetail["author_name"] as? String
                 cell.lblDatetime.text = dictDetail["pdate"] as? String
                 cell.lblCategoryName.text = (dictDetail["category_name"] as? String)?.uppercased()
                 cell.lblKeywords.text = (dictDetail["keywords"] as? String)?.uppercased()
@@ -375,6 +407,7 @@ extension NewsViewController :UICollectionViewDelegate, UICollectionViewDataSour
             cell.lblTitle.text = dictDetail["name"] as? String
             let strImgURL = "\(dictDetail["up_pro_img"] as! String)"
             cell.imageSlider.sd_setImage(with: URL(string: strImgURL), completed: nil)
+            cell.imageSlider.dropShadow()
             return cell
         }else{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrendingCollectionCell", for: indexPath) as! TrendingCollectionCell
@@ -388,6 +421,12 @@ extension NewsViewController :UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView.tag == 1111{
+            let dictDetail = self.arrSliderNewsList[indexPath.row]
+            let newsDetails = self.storyboard?.instantiateViewController(withIdentifier: "NewsDetailsVC") as! NewsDetailsVC
+            newsDetails.newsId = "\(dictDetail["id"]!)"
+            self.navigationController?.pushViewController(newsDetails, animated: true)
+        }
         if collectionView.tag == 2222{
             let dictDetail = self.arrTrendingNewsList[indexPath.row]
             let newsDetails = self.storyboard?.instantiateViewController(withIdentifier: "NewsDetailsVC") as! NewsDetailsVC
@@ -425,23 +464,25 @@ extension NewsViewController :UICollectionViewDelegate, UICollectionViewDataSour
 
 extension UIViewController
 {
-  func topColouredBlack()
-  {
-     let colouredTopBlack = UIView()
-     view.addSubview(colouredTopBlack)
-     colouredTopBlack.translatesAutoresizingMaskIntoConstraints = false
-     colouredTopBlack.backgroundColor = statusBarColor
-
-     NSLayoutConstraint.activate([
-        colouredTopBlack.topAnchor.constraint(equalTo: view.topAnchor),
-        colouredTopBlack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-        colouredTopBlack.widthAnchor.constraint(equalTo: view.widthAnchor),
-    ])
-  }
+    func topColouredBlack()
+    {
+        let colouredTopBlack = UIView()
+        view.addSubview(colouredTopBlack)
+        colouredTopBlack.translatesAutoresizingMaskIntoConstraints = false
+        colouredTopBlack.backgroundColor = statusBarColor
+        
+        NSLayoutConstraint.activate([
+            colouredTopBlack.topAnchor.constraint(equalTo: view.topAnchor),
+            colouredTopBlack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            colouredTopBlack.widthAnchor.constraint(equalTo: view.widthAnchor),
+        ])
+    }
+    
+    
 }
 
 extension UIApplication {
-
+    
     var statusBarView: UIView? {
         return value(forKey: "statusBar") as? UIView
     }

@@ -24,6 +24,10 @@ class ViewController: UIViewController, UICollectionViewDataSource,UICollectionV
         
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        appDelegateObj.currentScreen = ""
+    }
     
     func getSettingData() {
         let url = ApiEndPoints.Onboarding.getSettings

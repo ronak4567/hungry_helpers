@@ -46,7 +46,7 @@ class NewsDetailsVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         topColouredBlack()
-        
+        appDelegateObj.currentScreen = ScreenName.newsDetailScreen.rawValue
     }
     
     @IBAction func tappedOnBack(_ sender:UIButton){
@@ -85,9 +85,16 @@ class NewsDetailsVC: UIViewController {
             self.lblAuthourName.text = dictNewsDetail["author_name"] as? String
             self.lblAuthorDate.text = dictNewsDetail["pdate"] as? String
             self.lblCategory.text = dictNewsDetail["category_name"] as? String
-            self.lblDescription.attributedText = (dictNewsDetail["description"] as? String)?.html2AttributedString
+            
+            
+            let attributedString:NSMutableAttributedString = ((dictNewsDetail["description"] as? String)?.html2AttributedString)!
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 2
+            attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+            self.lblDescription.attributedText = attributedString;
             
             self.lblDescription.font = UIFont(name: "Metropolis-Regular", size: 15)
+            self.lblDescription.textAlignment = .justified;
             
             if let strImgURL = dictNewsDetail["up_pro_img"] as? String {
                 self.imgNewsBanner.sd_setImage(with: URL(string: strImgURL), completed: nil)
@@ -163,7 +170,7 @@ extension NewsDetailsVC :UITableViewDataSource, UITableViewDelegate{
         let cell = tableView.dequeueReusableCell(withIdentifier: "OtherStoriesCell", for: indexPath) as! OtherStoriesCell
         let dictDetail = self.arrOtherStories[indexPath.row]
         cell.lblTitle.text = dictDetail["name"] as? String
-        cell.lblCategory.text = dictDetail["category_name"] as? String
+        cell.lblCategory.text = (dictDetail["category_name"] as? String)?.uppercased()
         
         if let strImgURL = dictDetail["up_pro_img"] as? String {
             cell.imgStories.sd_setImage(with: URL(string: strImgURL), completed: nil)

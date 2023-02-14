@@ -41,7 +41,7 @@ class FullPageViewController: UIViewController {
     
     @IBAction func tappedCloseView(_ sender:UIButton){
         self.dismiss(animated: true) {
-            
+            appDelegateObj.openAdSecondTime = false
         }
     }
 }

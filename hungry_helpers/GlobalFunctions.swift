@@ -58,10 +58,10 @@ func openURLToBrowser(strURL:String) {
 }
 
 extension Data {
-    var html2AttributedString: NSAttributedString? {
+    var html2AttributedString: NSMutableAttributedString? {
         do {
 //            return try NSAttributedString(data: self, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
-            return try NSAttributedString(data: self, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+            return try NSMutableAttributedString(data: self, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
         } catch {
             print("error:", error)
             return  nil
@@ -72,9 +72,68 @@ extension Data {
     }
 }
 
+extension UIView {
+    func dropShadow(scale: Bool = true) {
+        layer.shadowColor = UIColor.red.cgColor
+        layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        layer.shadowOpacity = 1.0
+        layer.shadowRadius = 4.0
+        layer.masksToBounds = false
+        layer.cornerRadius = 4.0
+        layer.shadowPath = UIBezierPath(rect: CGRect(x: 0,
+                                                         y: bounds.maxY - layer.shadowRadius,
+                                                         width: bounds.width,
+                                                         height: layer.shadowRadius)).cgPath
+        //        layer.masksToBounds = false
+        //        layer.shadowColor = UIColor.black.cgColor
+        //        layer.shadowOpacity = 0.2
+        //        layer.shadowOffset = .zero
+        //        layer.shadowRadius = 1
+        //        layer.shouldRasterize = true
+        //        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+    }
+}
+
+@IBDesignable
+public class Gradient: UIView {
+    @IBInspectable var startColor:   UIColor = .black { didSet { updateColors() }}
+    @IBInspectable var endColor:     UIColor = .white { didSet { updateColors() }}
+    @IBInspectable var startLocation: Double =   0.05 { didSet { updateLocations() }}
+    @IBInspectable var endLocation:   Double =   0.95 { didSet { updateLocations() }}
+    @IBInspectable var horizontalMode:  Bool =  false { didSet { updatePoints() }}
+    @IBInspectable var diagonalMode:    Bool =  false { didSet { updatePoints() }}
+
+    override public class var layerClass: AnyClass { CAGradientLayer.self }
+
+    var gradientLayer: CAGradientLayer { layer as! CAGradientLayer }
+
+    func updatePoints() {
+        if horizontalMode {
+            gradientLayer.startPoint = diagonalMode ? .init(x: 1, y: 0) : .init(x: 0, y: 0.5)
+            gradientLayer.endPoint   = diagonalMode ? .init(x: 0, y: 1) : .init(x: 1, y: 0.5)
+        } else {
+            gradientLayer.startPoint = diagonalMode ? .init(x: 0, y: 0) : .init(x: 0.5, y: 0)
+            gradientLayer.endPoint   = diagonalMode ? .init(x: 1, y: 1) : .init(x: 0.5, y: 1)
+        }
+    }
+    func updateLocations() {
+        gradientLayer.locations = [startLocation as NSNumber, endLocation as NSNumber]
+    }
+    func updateColors() {
+        gradientLayer.colors = [startColor.cgColor, endColor.cgColor]
+    }
+    override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updatePoints()
+        updateLocations()
+        updateColors()
+    }
+
+}
+
 
 extension String {
-    var html2AttributedString: NSAttributedString? {
+    var html2AttributedString: NSMutableAttributedString? {
         return Data(utf8).html2AttributedString
     }
     var html2String: String {

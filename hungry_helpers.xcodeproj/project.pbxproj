@@ -19,7 +19,6 @@
 		2F22FDAA2995322400AE6C78 /* DPDKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F22FDA12995322400AE6C78 /* DPDKeyboardListener.swift */; };
 		2F22FDAB2995322400AE6C78 /* DPDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F22FDA22995322400AE6C78 /* DPDConstants.swift */; };
 		2F22FDAC2995322400AE6C78 /* DPDUIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F22FDA32995322400AE6C78 /* DPDUIView+Extension.swift */; };
-		2F22FDAD2995322400AE6C78 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2F22FDA42995322400AE6C78 /* Info.plist */; };
 		2F22FDAE2995322400AE6C78 /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F22FDA62995322400AE6C78 /* DropDown.swift */; };
 		2F22FDAF2995322400AE6C78 /* DropDownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F22FDA72995322400AE6C78 /* DropDownCell.swift */; };
 		2F22FDB02995322400AE6C78 /* DropDown+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F22FDA82995322400AE6C78 /* DropDown+Appearance.swift */; };
@@ -70,7 +69,6 @@
 		2F22FDA12995322400AE6C78 /* DPDKeyboardListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDKeyboardListener.swift; sourceTree = "<group>"; };
 		2F22FDA22995322400AE6C78 /* DPDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPDConstants.swift; sourceTree = "<group>"; };
 		2F22FDA32995322400AE6C78 /* DPDUIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DPDUIView+Extension.swift"; sourceTree = "<group>"; };
-		2F22FDA42995322400AE6C78 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F22FDA62995322400AE6C78 /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
 		2F22FDA72995322400AE6C78 /* DropDownCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownCell.swift; sourceTree = "<group>"; };
 		2F22FDA82995322400AE6C78 /* DropDown+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DropDown+Appearance.swift"; sourceTree = "<group>"; };
@@ -130,7 +128,6 @@
 				2F22FD9D2995322400AE6C78 /* DropDown.h */,
 				2F22FD9E2995322400AE6C78 /* resources */,
 				2F22FDA02995322400AE6C78 /* helpers */,
-				2F22FDA42995322400AE6C78 /* Info.plist */,
 				2F22FDA52995322400AE6C78 /* src */,
 			);
 			path = DropDown;
@@ -381,7 +378,6 @@
 			files = (
 				2FD949942966DD1400830226 /* Metropolis-Bold.otf in Resources */,
 				2FC530CD29659DDD0061285D /* LaunchScreen.storyboard in Resources */,
-				2F22FDAD2995322400AE6C78 /* Info.plist in Resources */,
 				2FD949952966DD1400830226 /* Metropolis-Regular.otf in Resources */,
 				2FC530F92965A6590061285D /* MSSLocalizable.strings in Resources */,
 				2FD949962966DD1400830226 /* Metropolis-Medium.otf in Resources */,
@@ -624,7 +620,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SB94AN5R72;
+				DEVELOPMENT_TEAM = 2HWFJ3NL6B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = hungry_helpers/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Hungry Helpers";
@@ -661,7 +657,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SB94AN5R72;
+				DEVELOPMENT_TEAM = 2HWFJ3NL6B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = hungry_helpers/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Hungry Helpers";

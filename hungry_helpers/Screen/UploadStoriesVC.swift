@@ -44,6 +44,7 @@ class UploadStoriesVC: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         topColouredBlack()
+        appDelegateObj.currentScreen = ScreenName.uploadScreen.rawValue
 
     }
     

@@ -41,7 +41,7 @@ class InfoViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         topColouredBlack()
-        
+        appDelegateObj.currentScreen = ""
     }
     
     func getInfoPageData() {
@@ -52,10 +52,23 @@ class InfoViewController: UIViewController {
                 var dictResult = response.result as! Dictionary<String,Any>
                 printToConsole(item: dictResult)
                 self.arrStaticPage = dictResult["staticpage"] as! [Dictionary<String, Any>]
-                self.txtStaticPage.attributedText = (self.arrStaticPage[0]["description"] as? String)?.html2AttributedString
-                self.txtStaticPage.font = UIFont(name: "Metropolis-Regular", size: 15)
+//                self.txtStaticPage.attributedText = (self.arrStaticPage[0]["description"] as? String)?.html2AttributedString
+//                self.txtStaticPage.font = UIFont(name: "Metropolis-Regular", size: 15)
+                self.showText(self.arrStaticPage[0]["description"] as? String ?? "")
+                
             }
         }
+    }
+    
+    func showText(_ text:String){
+        let attributedString:NSMutableAttributedString = (text.html2AttributedString!)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 2
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        self.txtStaticPage.attributedText = attributedString;
+        
+        self.txtStaticPage.font = UIFont(name: "Metropolis-Regular", size: 15)
+        self.txtStaticPage.textAlignment = .justified;
     }
     
     @IBAction func tappedOnBack(_ sender:UIButton){
@@ -73,16 +86,18 @@ class InfoViewController: UIViewController {
             btnContact.isSelected = false
             btnAbout.backgroundColor = statusBarColor
             self.txtStaticPage.isHidden = false
-            self.txtStaticPage.attributedText = (self.arrStaticPage[0]["description"] as? String)?.html2AttributedString
-            self.txtStaticPage.font = UIFont(name: "Metropolis-Regular", size: 15)
+            //self.txtStaticPage.attributedText = (self.arrStaticPage[0]["description"] as? String)?.html2AttributedString
+            //self.txtStaticPage.font = UIFont(name: "Metropolis-Regular", size: 15)
+            self.showText(self.arrStaticPage[0]["description"] as? String ?? "")
         }else if sender.tag == 222 {
             btnAbout.isSelected = false
             btnTerms.isSelected = true
             btnContact.isSelected = false
             btnTerms.backgroundColor = statusBarColor
             self.txtStaticPage.isHidden = false
-            self.txtStaticPage.attributedText = (self.arrStaticPage[1]["description"] as? String)?.html2AttributedString
-            self.txtStaticPage.font = UIFont(name: "Metropolis-Regular", size: 15)
+//            self.txtStaticPage.attributedText = (self.arrStaticPage[1]["description"] as? String)?.html2AttributedString
+//            self.txtStaticPage.font = UIFont(name: "Metropolis-Regular", size: 15)
+            self.showText(self.arrStaticPage[1]["description"] as? String ?? "")
         }else if sender.tag == 333 {
             btnAbout.isSelected = false
             btnTerms.isSelected = false

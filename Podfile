@@ -7,6 +7,7 @@ target 'hungry_helpers' do
   pod 'Alamofire' , '~> 4.9.1'
   pod 'SwiftMessages' , '~> 5.0.1'
   pod 'SDWebImage'
+  pod "AlignedCollectionViewFlowLayout"
   # Pods for hungry_helpers
 
 end

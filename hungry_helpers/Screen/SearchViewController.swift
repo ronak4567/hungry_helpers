@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import AlignedCollectionViewFlowLayout
 class CategoriesCell: UICollectionViewCell {
     @IBOutlet var imgCategories:UIImageView!
     @IBOutlet var lblTitle:UILabel!
@@ -26,31 +26,51 @@ class SearchViewController: UIViewController {
     @IBOutlet var collectionCategories:UICollectionView!
     @IBOutlet var collectionKeyword:UICollectionView!
     @IBOutlet var txtSearch:UITextField!
+    @IBOutlet var categoriesCollHeight:NSLayoutConstraint!
+    @IBOutlet var keyworkCollHeight:NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         getKeywordData()
+        let alignedFlowLayout = self.collectionKeyword?.collectionViewLayout as? AlignedCollectionViewFlowLayout
+        alignedFlowLayout!.horizontalAlignment = .left
+        //alignedFlowLayout!.verticalAlignment = .top
+        alignedFlowLayout!.minimumInteritemSpacing = 4
+        alignedFlowLayout!.minimumLineSpacing = 5
+        alignedFlowLayout!.estimatedItemSize = .init(width: 100, height: 40)
+        txtSearch.attributedPlaceholder = NSAttributedString(
+            string: txtSearch.placeholder ?? "",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]
+        )
+        let width = (ScreenSize.SCREEN_WIDTH) / 3
+        let noOfRow = (Double(appDelegateObj.arrCategories.count) / 3.0).rounded();
+        let collectionHeight = (noOfRow * width) + (10 * noOfRow)
+        self.categoriesCollHeight.constant = CGFloat(collectionHeight);
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        appDelegateObj.currentScreen = ScreenName.searchScreen.rawValue
         topColouredBlack()
     }
-    
-    
-    
-    
     
     func getKeywordData() {
         let url = ApiEndPoints.Onboarding.getKeywords
         NetworkingWrapper.sharedInstance.connect(urlEndPoint: url, httpMethod: .get) { (response) in
-            
             if((response.status?.isEqual(to: 1)) != nil){
                 var dictResult = response.result as! Dictionary<String,Any>
                 printToConsole(item: dictResult)
                 self.arrKeyword = dictResult["keywords_list"] as! [Dictionary<String, Any>]
+//                self.arrKeyword.append(contentsOf: self.arrKeyword)
                 self.collectionKeyword.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    var height = self.collectionKeyword.contentSize.height
+                    //self.collectionKeyword.collectionViewLayout.collectionViewContentSize.height;
+                    printToConsole(item: height);
+                    self.keyworkCollHeight.constant = height
+                }
             }
         }
     }
@@ -79,8 +99,30 @@ extension SearchViewController : UITextFieldDelegate {
     }
 }
 
+class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
 
-extension SearchViewController :UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        let attributes = super.layoutAttributesForElements(in: rect)
+
+        var leftMargin = sectionInset.left
+        var maxY: CGFloat = -1.0
+        attributes?.forEach { layoutAttribute in
+            if layoutAttribute.frame.origin.y >= maxY {
+                leftMargin = sectionInset.left
+            }
+
+            layoutAttribute.frame.origin.x = leftMargin
+
+            leftMargin += layoutAttribute.frame.width + minimumInteritemSpacing
+            maxY = max(layoutAttribute.frame.maxY , maxY)
+        }
+
+        return attributes
+    }
+}
+
+
+extension SearchViewController :UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (self.collectionCategories == collectionView){
             return appDelegateObj.arrCategories.count
@@ -125,16 +167,15 @@ extension SearchViewController :UICollectionViewDelegate, UICollectionViewDataSo
         self.navigationController?.pushViewController(searchStoriesVC, animated: true)
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (ScreenSize.SCREEN_WIDTH) / 3
         return CGSize(width: width, height: width + 10)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
     }
