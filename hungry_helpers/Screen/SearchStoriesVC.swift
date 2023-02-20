@@ -12,6 +12,8 @@ class SearchStoriesVC: UIViewController {
     @IBOutlet var tblNews:UITableView!
     @IBOutlet var lblKeyword:UILabel!
     @IBOutlet var lblNoRecords:UILabel!
+    @IBOutlet var txtSearch:UITextField!
+    
     var noOfData = 0
     var timer:Timer?
     var counter = 0
@@ -32,9 +34,10 @@ class SearchStoriesVC: UIViewController {
         super.viewDidLoad()
         lblKeyword.text = self.keywords
         self.getNewsData()
-        
-        
-        // Do any additional setup after loading the view.
+        txtSearch.attributedPlaceholder = NSAttributedString(
+            string: txtSearch.placeholder ?? "",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {

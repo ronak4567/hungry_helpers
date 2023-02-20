@@ -668,7 +668,7 @@
                                 </connections>
                             </tableView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="smT-g3-KjT" customClass="UIControl">
-                                <rect key="frame" x="10" y="10" width="110" height="40"/>
+                                <rect key="frame" x="10" y="10" width="107.5" height="40"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Cities" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hl5-d7-4Kc">
                                         <rect key="frame" x="8" y="12.5" width="61.5" height="15"/>
@@ -677,7 +677,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="screen1_icon1" translatesAutoresizingMaskIntoConstraints="NO" id="NZT-GR-r20">
-                                        <rect key="frame" x="82" y="7.5" width="20" height="25"/>
+                                        <rect key="frame" x="79.5" y="7.5" width="20" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="MTx-aV-fFV"/>
                                         </constraints>
@@ -685,7 +685,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="3eP-VA-MNd"/>
+                                    <constraint firstItem="NZT-GR-r20" firstAttribute="leading" secondItem="hl5-d7-4Kc" secondAttribute="trailing" constant="10" id="7Ki-lw-v9d"/>
                                     <constraint firstAttribute="trailing" secondItem="NZT-GR-r20" secondAttribute="trailing" constant="8" id="LLy-U2-Gbn"/>
                                     <constraint firstItem="hl5-d7-4Kc" firstAttribute="leading" secondItem="smT-g3-KjT" secondAttribute="leading" constant="8" id="WDr-y8-SBn"/>
                                     <constraint firstItem="NZT-GR-r20" firstAttribute="centerY" secondItem="smT-g3-KjT" secondAttribute="centerY" id="WWT-62-V1n"/>
@@ -723,6 +723,7 @@
                     </tabBarItem>
                     <connections>
                         <outlet property="controlCity" destination="smT-g3-KjT" id="Mxd-fx-ENE"/>
+                        <outlet property="lblCity" destination="hl5-d7-4Kc" id="EjT-72-WV5"/>
                         <outlet property="tblNews" destination="RIY-o2-4RO" id="eg1-Jm-NJb"/>
                     </connections>
                 </viewController>
@@ -1118,7 +1119,6 @@
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" image="back_arrow"/>
                                         <connections>
-                                            <action selector="tappedOnBack:" destination="Pbw-21-86X" eventType="touchUpInside" id="0xD-2c-uwy"/>
                                             <action selector="tappedOnBack:" destination="Nag-Ym-WkO" eventType="touchUpInside" id="UHW-Ug-x89"/>
                                             <action selector="tappedOnBack:" destination="ur8-pf-JW4" eventType="touchUpInside" id="bKK-dq-246"/>
                                         </connections>
@@ -1386,6 +1386,7 @@ If you have any knowledge regarding the same, then feel free to upload it to spr
                         <outlet property="lblKeyword" destination="aWh-gl-rbh" id="pYY-SQ-fPR"/>
                         <outlet property="lblNoRecords" destination="QwA-0V-WAF" id="UgE-Ra-twb"/>
                         <outlet property="tblNews" destination="ti7-jv-CwF" id="YbM-BF-JhD"/>
+                        <outlet property="txtSearch" destination="Wih-hg-y8N" id="9OK-dw-tku"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y4v-HD-ZA7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1455,6 +1456,9 @@ If you have any knowledge regarding the same, then feel free to upload it to spr
                                                 </constraints>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" image="imgShare"/>
+                                                <connections>
+                                                    <action selector="tappedOnShare:" destination="Pbw-21-86X" eventType="touchUpInside" id="Qqk-5g-tfa"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PEk-sg-jOB">
                                                 <rect key="frame" x="270" y="10" width="40" height="40"/>
@@ -1498,6 +1502,9 @@ If you have any knowledge regarding the same, then feel free to upload it to spr
                                                         <real key="value" value="1"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="tappedOnCategory:" destination="Pbw-21-86X" eventType="touchUpInside" id="shg-H7-O0J"/>
+                                                </connections>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SrI-lv-paM">
                                                 <rect key="frame" x="10" y="285" width="300" height="17"/>
@@ -2124,7 +2131,6 @@ If you have any knowledge regarding the same, then feel free to upload it to spr
                                         <state key="normal" image="back_arrow"/>
                                         <connections>
                                             <action selector="tappedOnBack:" destination="Nag-Ym-WkO" eventType="touchUpInside" id="bJl-ue-e9T"/>
-                                            <action selector="tappedOnBack:" destination="Pbw-21-86X" eventType="touchUpInside" id="jH4-2O-CPl"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Bookmarks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9D9-9I-dEK">
@@ -2143,6 +2149,12 @@ If you have any knowledge regarding the same, then feel free to upload it to spr
                                     <constraint firstItem="wOe-Yu-uST" firstAttribute="leading" secondItem="nAe-hq-IpP" secondAttribute="leading" constant="10" id="vZH-VH-e1e"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Bookmark Saved." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aM1-be-Jei">
+                                <rect key="frame" x="68.5" y="275" width="183" height="18"/>
+                                <fontDescription key="fontDescription" name="Metropolis-Medium" family="Metropolis" pointSize="18"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="8qb-T2-2Uj">
                                 <rect key="frame" x="0.0" y="49" width="320" height="519"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -2328,11 +2340,14 @@ If you have any knowledge regarding the same, then feel free to upload it to spr
                             <constraint firstItem="8qb-T2-2Uj" firstAttribute="top" secondItem="nAe-hq-IpP" secondAttribute="bottom" constant="5" id="NBN-Om-DHj"/>
                             <constraint firstAttribute="bottom" secondItem="8qb-T2-2Uj" secondAttribute="bottom" id="d6S-55-ZYt"/>
                             <constraint firstItem="4yq-JF-kQd" firstAttribute="trailing" secondItem="nAe-hq-IpP" secondAttribute="trailing" id="dxN-xT-Aps"/>
+                            <constraint firstItem="aM1-be-Jei" firstAttribute="centerX" secondItem="7EW-g4-3Ym" secondAttribute="centerX" id="mP0-oq-BG3"/>
                             <constraint firstItem="8qb-T2-2Uj" firstAttribute="trailing" secondItem="4yq-JF-kQd" secondAttribute="trailing" id="rjL-mr-gJl"/>
                             <constraint firstItem="8qb-T2-2Uj" firstAttribute="leading" secondItem="4yq-JF-kQd" secondAttribute="leading" id="tIm-9G-Gav"/>
+                            <constraint firstItem="aM1-be-Jei" firstAttribute="centerY" secondItem="7EW-g4-3Ym" secondAttribute="centerY" id="zAq-Ye-e9y"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="lblNoBookmark" destination="aM1-be-Jei" id="6TM-Rc-UyX"/>
                         <outlet property="tblNews" destination="8qb-T2-2Uj" id="ioC-Hf-DOe"/>
                     </connections>
                 </viewController>
@@ -2367,7 +2382,6 @@ If you have any knowledge regarding the same, then feel free to upload it to spr
                                         <state key="normal" image="back_arrow"/>
                                         <connections>
                                             <action selector="tappedOnBack:" destination="Nag-Ym-WkO" eventType="touchUpInside" id="QYc-b1-Mfw"/>
-                                            <action selector="tappedOnBack:" destination="Pbw-21-86X" eventType="touchUpInside" id="T4n-5y-tLa"/>
                                             <action selector="tappedOnBack:" destination="Svx-VZ-moc" eventType="touchUpInside" id="WG6-W1-4q4"/>
                                         </connections>
                                     </button>

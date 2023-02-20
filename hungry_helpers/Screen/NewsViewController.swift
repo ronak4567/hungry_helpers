@@ -47,7 +47,7 @@ class NewsViewController: UIViewController {
     
     @IBOutlet var tblNews:UITableView!
     @IBOutlet var controlCity:UIControl!
-    @IBOutlet var lblCity:UIControl!
+    @IBOutlet var lblCity:UILabel!
     var noOfData = 0
     var timer:Timer?
     var counter = 0
@@ -228,6 +228,7 @@ class NewsViewController: UIViewController {
                 }else{
                     self.selectedCity = cityId
                 }
+                self.lblCity.text = arrTopic[index]["name"] as? String 
             }
             self.noOfData = 0;
             self.arrNewsList.removeAll()

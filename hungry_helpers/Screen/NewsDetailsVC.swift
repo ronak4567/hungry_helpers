@@ -54,7 +54,13 @@ class NewsDetailsVC: UIViewController {
     }
     
     @IBAction func tappedOnBookmark(_ sender:UIButton) {
-        let url = ApiEndPoints.News.addBookmark
+        var url = ""
+        if self.btnBookmark.isSelected {
+            url = ApiEndPoints.News.removeBookmark;
+        }else{
+            url = ApiEndPoints.News.addBookmark;
+        }
+        
         let headerWithform = [
             "Content-Type": "application/x-www-form-urlencoded"
         ]
@@ -65,7 +71,31 @@ class NewsDetailsVC: UIViewController {
             let dictResult = response.result as! Dictionary<String,Any>
             printToConsole(item: dictResult)
             CustomAlertController.sharedInstance.showAlertWith(subTitle: dictResult["message"] as? String, theme: .success)
+            if self.btnBookmark.isSelected{
+                self.btnBookmark.isSelected = false
+            }else{
+                self.btnBookmark.isSelected = true
+            }
         }
+    }
+    
+    @IBAction func tappedOnShare(_ sender:UIButton) {
+        if let image = self.imgNewsBanner.image {
+            appDelegateObj.openShareMenu(strMessage: self.lblTitle.text ?? "", image: image)
+        }else{
+            appDelegateObj.openShareMenu(strMessage: self.lblTitle.text ?? "", image: nil)
+        }
+    }
+    
+    @IBAction func tappedOnCategory(_ sender:UIControl) {
+        let searchStoriesVC = self.storyboard?.instantiateViewController(withIdentifier: "SearchStoriesVC") as! SearchStoriesVC
+        searchStoriesVC.categoryId = "\(self.controlCategory.tag)"
+        searchStoriesVC.keywords = self.lblCategory.text ?? ""
+        self.navigationController?.pushViewController(searchStoriesVC, animated: true)
+    }
+    
+    @IBAction func tappedOnKeyword(_ sender:UIControl) {
+        
     }
     
     
@@ -85,7 +115,7 @@ class NewsDetailsVC: UIViewController {
             self.lblAuthourName.text = dictNewsDetail["author_name"] as? String
             self.lblAuthorDate.text = dictNewsDetail["pdate"] as? String
             self.lblCategory.text = dictNewsDetail["category_name"] as? String
-            
+            self.controlCategory.tag = Int(dictNewsDetail["cid"] as? String ?? "0") ?? 0
             
             let attributedString:NSMutableAttributedString = ((dictNewsDetail["description"] as? String)?.html2AttributedString)!
             let paragraphStyle = NSMutableParagraphStyle()
@@ -148,14 +178,18 @@ extension NewsDetailsVC :UICollectionViewDelegate, UICollectionViewDataSource, U
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KeywordCell", for: indexPath) as! KeywordCell
-        
         let strKeyword = self.arrKeyword[indexPath.row]
         cell.lblTitle.text = strKeyword.uppercased()
-        
         cell.viewBackground.backgroundColor = keywordColor
         return cell
-        
-        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let searchStoriesVC = self.storyboard?.instantiateViewController(withIdentifier: "SearchStoriesVC") as! SearchStoriesVC
+        let strKeyword = self.arrKeyword[indexPath.row]
+        searchStoriesVC.categoryId = ""
+        searchStoriesVC.keywords = strKeyword
+        self.navigationController?.pushViewController(searchStoriesVC, animated: true)
     }
 }
 

@@ -63,7 +63,6 @@ class SearchViewController: UIViewController {
                 var dictResult = response.result as! Dictionary<String,Any>
                 printToConsole(item: dictResult)
                 self.arrKeyword = dictResult["keywords_list"] as! [Dictionary<String, Any>]
-//                self.arrKeyword.append(contentsOf: self.arrKeyword)
                 self.collectionKeyword.reloadData()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                     var height = self.collectionKeyword.contentSize.height

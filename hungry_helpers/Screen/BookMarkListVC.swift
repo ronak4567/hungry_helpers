@@ -15,6 +15,7 @@ class BookMarkListVC: UIViewController {
     var arrBookmarkList:[Dictionary<String,Any>] = []
     
     @IBOutlet var tblNews:UITableView!
+    @IBOutlet var lblNoBookmark:UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,10 +48,14 @@ class BookMarkListVC: UIViewController {
                     self.totalRecord = record
                 }
                 if self.arrBookmarkList.count == 0 {
+                    self.lblNoBookmark.isHidden = false
+                    self.tblNews.isHidden = true
                     if let arrNewTempData = dictResult["news_list"] as? [Dictionary<String, Any>]{
                         self.arrBookmarkList = arrNewTempData
                     }
                 }else{
+                    self.lblNoBookmark.isHidden = true
+                    self.tblNews.isHidden = false
                     if let arrNewTempData = dictResult["news_list"] as? [Dictionary<String, Any>]{
                         self.arrBookmarkList.append(contentsOf: arrNewTempData)
                     }

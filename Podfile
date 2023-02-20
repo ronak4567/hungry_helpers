@@ -8,6 +8,7 @@ target 'hungry_helpers' do
   pod 'SwiftMessages' , '~> 5.0.1'
   pod 'SDWebImage'
   pod "AlignedCollectionViewFlowLayout"
+  pod 'IQKeyboardManagerSwift'
   # Pods for hungry_helpers
 
 end

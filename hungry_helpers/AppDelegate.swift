@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import IQKeyboardManagerSwift
 public enum ScreenName: String {
     case newsScreen = "news_screen"
     case searchScreen = "search_screen"
@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UITabBar.appearance().tintColor = UIColor(red: 174.0/256, green: 16.0/256, blue: 129.0/256, alpha: 1.0)
-        
+        IQKeyboardManager.shared.enable = true
         if let userMobile = UserDefaults.standard.string(forKey: "RegisterMobile"){
             self.userMobile = userMobile
         }
