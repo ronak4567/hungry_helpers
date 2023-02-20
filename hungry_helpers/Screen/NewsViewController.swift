@@ -169,8 +169,19 @@ class NewsViewController: UIViewController {
                 
                 self.noOfData = self.arrNewsList.count
                 
+                
+                var arrTemp:[Dictionary<String, Any>] = []
+                arrTemp.append(self.arrNewsList[0])
+                arrTemp.append(["category_name":"BannerAd"])
+                arrTemp.append(self.arrNewsList[1])
+                arrTemp.append(["category_name":"TrendingStory"])
+                
+                self.arrNewsList.remove(at: 0)
+                self.arrNewsList.remove(at: 1)
+                
+                self.arrNewsList.insert(contentsOf: arrTemp, at: 0)
                 var result = self.arrNewsList.adding(["category_name":"BannerAd"], afterEvery: 4)
-                result.insert(["category_name":"TrendingStory"], at: 3)
+                result.remove(at: 4)
                 self.arrTableData = result
                 
                 DispatchQueue.main.async {
@@ -228,7 +239,7 @@ class NewsViewController: UIViewController {
                 }else{
                     self.selectedCity = cityId
                 }
-                self.lblCity.text = arrTopic[index]["name"] as? String 
+                self.lblCity.text = arrTopic[index]["name"] as? String
             }
             self.noOfData = 0;
             self.arrNewsList.removeAll()
