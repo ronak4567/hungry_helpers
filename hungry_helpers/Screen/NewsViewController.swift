@@ -47,6 +47,7 @@ class NewsViewController: UIViewController {
     
     @IBOutlet var tblNews:UITableView!
     @IBOutlet var controlCity:UIControl!
+    @IBOutlet var lblCity:UIControl!
     var noOfData = 0
     var timer:Timer?
     var counter = 0

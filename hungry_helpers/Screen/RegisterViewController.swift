@@ -38,7 +38,7 @@ class RegisterViewController: UIViewController {
         }else{
             
             let Message = "Hey! Friends for the Benefits of Application, Please Confirm Your Mobile No. : (\(strMobile!)) once Again. You Can't change it later." //"Please be sure the Mobile Number (\(strMobile!)) You entered is correct, otherwise You will not get Application Benefits Later."
-            let alert = UIAlertController(title: "Swasthyam", message: Message, preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "Hungry Helpers", message: Message, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "SUBMIT", style: UIAlertAction.Style.default, handler: { (UIAlertAction) in
                 self.callRegisterAPI()
             }))
